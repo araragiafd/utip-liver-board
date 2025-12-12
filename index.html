@@ -30,14 +30,21 @@
     <main class="main">
         <div class="container">
             <section class="hero">
-                <h2>ライバーコミュニティ掲示板</h2>
-                <p>配信者と視聴者が交流できる場所</p>
+                <h2>ライバー評価掲示板</h2>
+                <p>お気に入りのライバーについて感想や評価を共有しよう</p>
+                
+                <div class="search-section">
+                    <div class="search-box">
+                        <input type="text" id="liverSearch" placeholder="ライバー名で検索...">
+                        <button id="searchBtn"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
             </section>
 
             <div class="content-wrapper">
                 <aside class="sidebar">
                     <div class="widget">
-                        <h3>カテゴリ</h3>
+                        <h3>配信カテゴリ</h3>
                         <ul class="category-list">
                             <li><a href="#gaming"><i class="fas fa-gamepad"></i> ゲーム配信</a></li>
                             <li><a href="#music"><i class="fas fa-music"></i> 音楽配信</a></li>
@@ -50,63 +57,57 @@
 
                     <div class="widget">
                         <h3>人気ライバー</h3>
-                        <div class="popular-livers">
-                            <div class="liver-card">
-                                <img src="https://via.placeholder.com/50x50" alt="ライバー1" class="liver-avatar">
-                                <div class="liver-info">
-                                    <h4>配信者A</h4>
-                                    <span class="status online">配信中</span>
-                                </div>
-                            </div>
-                            <div class="liver-card">
-                                <img src="https://via.placeholder.com/50x50" alt="ライバー2" class="liver-avatar">
-                                <div class="liver-info">
-                                    <h4>配信者B</h4>
-                                    <span class="status offline">オフライン</span>
-                                </div>
-                            </div>
+                        <div class="popular-livers" id="popularLivers">
+                            <!-- 人気ライバーが動的に表示される -->
+                        </div>
+                    </div>
+
+                    <div class="widget">
+                        <h3>最新の評価</h3>
+                        <div class="recent-reviews" id="recentReviews">
+                            <!-- 最新の評価が動的に表示される -->
                         </div>
                     </div>
                 </aside>
 
                 <section class="board-content">
                     <div class="board-header">
-                        <h2>掲示板</h2>
-                        <button class="btn-primary" id="newPostBtn">
-                            <i class="fas fa-plus"></i> 新規投稿
+                        <h2>ライバー一覧</h2>
+                        <button class="btn-primary" id="addLiverBtn">
+                            <i class="fas fa-plus"></i> ライバー追加
                         </button>
                     </div>
 
-                    <div class="post-filters">
-                        <button class="filter-btn active" data-filter="all">すべて</button>
-                        <button class="filter-btn" data-filter="gaming">ゲーム</button>
-                        <button class="filter-btn" data-filter="music">音楽</button>
-                        <button class="filter-btn" data-filter="chat">雑談</button>
+                    <div class="sort-filters">
+                        <button class="filter-btn active" data-sort="popular">人気順</button>
+                        <button class="filter-btn" data-sort="newest">新着順</button>
+                        <button class="filter-btn" data-sort="rating">評価順</button>
+                        <button class="filter-btn" data-sort="reviews">レビュー数順</button>
                     </div>
 
-                    <div class="posts-container" id="postsContainer">
-                        <!-- 投稿がここに動的に追加される -->
+                    <div class="livers-grid" id="liversGrid">
+                        <!-- ライバーカードがここに動的に追加される -->
                     </div>
                 </section>
             </div>
         </div>
     </main>
 
-    <!-- 新規投稿モーダル -->
-    <div class="modal" id="newPostModal">
+    <!-- ライバー追加モーダル -->
+    <div class="modal" id="addLiverModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>新規投稿</h3>
-                <button class="modal-close" id="closeModal">&times;</button>
+                <h3>ライバー追加</h3>
+                <button class="modal-close" id="closeLiverModal">&times;</button>
             </div>
-            <form class="post-form" id="postForm">
+            <form class="liver-form" id="liverForm">
                 <div class="form-group">
-                    <label for="postTitle">タイトル</label>
-                    <input type="text" id="postTitle" required>
+                    <label for="liverName">ライバー名</label>
+                    <input type="text" id="liverName" required>
                 </div>
                 <div class="form-group">
-                    <label for="postCategory">カテゴリ</label>
-                    <select id="postCategory" required>
+                    <label for="liverCategory">配信カテゴリ</label>
+                    <select id="liverCategory" required>
                         <option value="">選択してください</option>
                         <option value="gaming">ゲーム配信</option>
                         <option value="music">音楽配信</option>
@@ -117,14 +118,59 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="postContent">内容</label>
-                    <textarea id="postContent" rows="5" required></textarea>
+                    <label for="liverPlatform">配信プラットフォーム</label>
+                    <select id="liverPlatform" required>
+                        <option value="">選択してください</option>
+                        <option value="youtube">YouTube</option>
+                        <option value="twitch">Twitch</option>
+                        <option value="niconico">ニコニコ生放送</option>
+                        <option value="mildom">Mildom</option>
+                        <option value="openrec">OPENREC</option>
+                        <option value="other">その他</option>
+                    </select>
                 </div>
                 <div class="form-group">
-                    <label for="authorName">投稿者名</label>
-                    <input type="text" id="authorName" required>
+                    <label for="liverDescription">説明</label>
+                    <textarea id="liverDescription" rows="3" placeholder="ライバーの特徴や配信内容など..."></textarea>
                 </div>
-                <button type="submit" class="btn-primary">投稿する</button>
+                <button type="submit" class="btn-primary">ライバーを追加</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- レビュー投稿モーダル -->
+    <div class="modal" id="reviewModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="reviewModalTitle">レビューを投稿</h3>
+                <button class="modal-close" id="closeReviewModal">&times;</button>
+            </div>
+            <form class="review-form" id="reviewForm">
+                <div class="form-group">
+                    <label for="reviewRating">評価</label>
+                    <div class="star-rating" id="starRating">
+                        <span class="star" data-rating="1">★</span>
+                        <span class="star" data-rating="2">★</span>
+                        <span class="star" data-rating="3">★</span>
+                        <span class="star" data-rating="4">★</span>
+                        <span class="star" data-rating="5">★</span>
+                    </div>
+                    <input type="hidden" id="reviewRating" required>
+                </div>
+                <div class="form-group">
+                    <label for="reviewTitle">タイトル</label>
+                    <input type="text" id="reviewTitle" required placeholder="レビューのタイトル">
+                </div>
+                <div class="form-group">
+                    <label for="reviewContent">感想・評価</label>
+                    <textarea id="reviewContent" rows="5" required placeholder="このライバーについての感想や評価を書いてください..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="reviewerName">投稿者名</label>
+                    <input type="text" id="reviewerName" required placeholder="あなたの名前（匿名可）">
+                </div>
+                <input type="hidden" id="reviewLiverId">
+                <button type="submit" class="btn-primary">レビューを投稿</button>
             </form>
         </div>
     </div>
