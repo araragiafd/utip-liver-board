@@ -30,14 +30,14 @@
     <main class="main">
         <div class="container">
             <section class="hero">
-                <h2>ライバー掲示板</h2>
-                <p>ライバーについての感想・評価・情報交換の場</p>
+                <h2>お気に入りのライバーを検索</h2>
                 
                 <div class="search-section">
                     <div class="search-box">
-                        <input type="text" id="threadSearch" placeholder="スレッドを検索...">
-                        <button id="searchBtn"><i class="fas fa-search"></i></button>
+                        <input type="text" id="liverSearch" placeholder="ライバー名">
+                        <button id="searchBtn">検索</button>
                     </div>
+                    <div class="search-results" id="searchResults">検索結果：</div>
                 </div>
             </section>
 
@@ -84,99 +84,87 @@
 
                 <section class="board-content">
                     <div class="board-header">
-                        <h2>スレッド一覧</h2>
-                        <button class="btn-primary" id="newThreadBtn">
-                            <i class="fas fa-plus"></i> 新規スレッド作成
+                        <button class="btn-primary" id="addLiverBtn">
+                            <i class="fas fa-plus"></i> 紹介したいライバー
                         </button>
                     </div>
 
-                    <div class="thread-filters">
-                        <button class="filter-btn active" data-sort="latest">最新順</button>
-                        <button class="filter-btn" data-sort="popular">人気順</button>
-                        <button class="filter-btn" data-sort="replies">レス数順</button>
-                        <button class="filter-btn" data-sort="created">作成順</button>
-                    </div>
-
-                    <div class="thread-list" id="threadList">
-                        <!-- スレッドがここに動的に追加される -->
-                    </div>
-
-                    <div class="pagination" id="pagination">
-                        <!-- ページネーションがここに表示される -->
+                    <div class="liver-grid" id="liverGrid">
+                        <!-- ライバーカードがここに動的に追加される -->
                     </div>
                 </section>
             </div>
         </div>
     </main>
 
-    <!-- 新規スレッド作成モーダル -->
-    <div class="modal" id="newThreadModal">
+    <!-- ライバー追加モーダル -->
+    <div class="modal" id="addLiverModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>新規スレッド作成</h3>
-                <button class="modal-close" id="closeThreadModal">&times;</button>
+                <h3>紹介したいライバー</h3>
+                <button class="modal-close" id="closeLiverModal">&times;</button>
             </div>
-            <form class="thread-form" id="threadForm">
+            <form class="liver-form" id="liverForm">
                 <div class="form-group">
-                    <label for="threadTitle">スレッドタイトル</label>
-                    <input type="text" id="threadTitle" required placeholder="例: 〇〇ライバーについて語ろう">
+                    <label for="liverName">ライバー名</label>
+                    <input type="text" id="liverName" required placeholder="ライバーの名前">
                 </div>
                 <div class="form-group">
-                    <label for="threadCategory">カテゴリ</label>
-                    <select id="threadCategory" required>
+                    <label for="liverCategory">配信カテゴリ</label>
+                    <select id="liverCategory" required>
                         <option value="">選択してください</option>
                         <option value="gaming">ゲーム配信</option>
                         <option value="music">音楽配信</option>
                         <option value="chat">雑談配信</option>
                         <option value="art">お絵描き配信</option>
                         <option value="cooking">料理配信</option>
-                        <option value="general">雑談・質問</option>
+                        <option value="other">その他</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="threadContent">内容</label>
-                    <textarea id="threadContent" rows="5" required placeholder="スレッドの内容を書いてください..."></textarea>
+                    <label for="liverDescription">コメント・エピソード</label>
+                    <textarea id="liverDescription" rows="5" required placeholder="このライバーについてのコメントやエピソードを書いてください..."></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="threadAuthor">投稿者名</label>
-                    <input type="text" id="threadAuthor" required placeholder="名前（匿名可）">
+                    <label for="liverAuthor">投稿者名</label>
+                    <input type="text" id="liverAuthor" required placeholder="あなたの名前（匿名可）">
                 </div>
-                <button type="submit" class="btn-primary">スレッドを作成</button>
+                <button type="submit" class="btn-primary">ライバーを追加</button>
             </form>
         </div>
     </div>
 
-    <!-- レス投稿モーダル -->
-    <div class="modal" id="replyModal">
+    <!-- コメント追加モーダル -->
+    <div class="modal" id="commentModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="replyModalTitle">レスを投稿</h3>
-                <button class="modal-close" id="closeReplyModal">&times;</button>
+                <h3 id="commentModalTitle">コメントを追加</h3>
+                <button class="modal-close" id="closeCommentModal">&times;</button>
             </div>
-            <form class="reply-form" id="replyForm">
+            <form class="comment-form" id="commentForm">
                 <div class="form-group">
-                    <label for="replyContent">レス内容</label>
-                    <textarea id="replyContent" rows="4" required placeholder="レスの内容を書いてください..."></textarea>
+                    <label for="commentContent">コメント・エピソード</label>
+                    <textarea id="commentContent" rows="4" required placeholder="このライバーについてのコメントやエピソードを書いてください..."></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="replyAuthor">投稿者名</label>
-                    <input type="text" id="replyAuthor" required placeholder="名前（匿名可）">
+                    <label for="commentAuthor">投稿者名</label>
+                    <input type="text" id="commentAuthor" required placeholder="名前（匿名可）">
                 </div>
-                <input type="hidden" id="replyThreadId">
-                <button type="submit" class="btn-primary">レスを投稿</button>
+                <input type="hidden" id="commentLiverId">
+                <button type="submit" class="btn-primary">コメントを投稿</button>
             </form>
         </div>
     </div>
 
-    <!-- スレッド詳細モーダル -->
-    <div class="modal" id="threadDetailModal">
+    <!-- ライバー詳細モーダル -->
+    <div class="modal" id="liverDetailModal">
         <div class="modal-content large">
             <div class="modal-header">
-                <h3 id="threadDetailTitle">スレッド詳細</h3>
+                <h3 id="liverDetailTitle">ライバー詳細</h3>
                 <button class="modal-close" id="closeDetailModal">&times;</button>
             </div>
-            <div class="thread-detail-content" id="threadDetailContent">
-                <!-- スレッドの詳細とレスがここに表示される -->
+            <div class="liver-detail-content" id="liverDetailContent">
+                <!-- ライバーの詳細とコメントがここに表示される -->
             </div>
         </div>
     </div>
