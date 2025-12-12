@@ -6,10 +6,10 @@
 }
 
 body {
-    font-family: 'Hiragino Sans', 'Yu Gothic', 'Meiryo', sans-serif;
-    line-height: 1.6;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', 'Yu Gothic', 'Meiryo', sans-serif;
+    background-color: #f0f0f0;
     color: #333;
-    background-color: #f5f5f5;
+    line-height: 1.6;
 }
 
 .container {
@@ -20,428 +20,179 @@ body {
 
 /* ヘッダー */
 .header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 1rem 0;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-.header .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo {
-    font-size: 1.8rem;
-    font-weight: bold;
-}
-
-.logo i {
-    margin-right: 0.5rem;
-    color: #ffd700;
-}
-
-.nav {
-    display: flex;
-    gap: 2rem;
-}
-
-.nav-link {
-    color: white;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-.nav-link:hover,
-.nav-link.active {
-    background-color: rgba(255,255,255,0.2);
-}
-
-/* メインコンテンツ */
-.main {
-    padding: 2rem 0;
-}
-
-.hero {
+    background-color: #f0f0f0;
+    padding: 40px 0 60px;
     text-align: center;
-    margin-bottom: 3rem;
-    padding: 2rem;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-.hero h2 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    color: #667eea;
-}
-
-.hero p {
-    font-size: 1.2rem;
-    color: #666;
+.title {
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 40px;
+    letter-spacing: 0.5px;
 }
 
 /* 検索セクション */
 .search-section {
-    margin-top: 2rem;
-    text-align: center;
+    margin-bottom: 20px;
 }
 
 .search-box {
     display: flex;
-    max-width: 400px;
-    margin: 0 auto 1rem;
-    background: white;
-    border-radius: 5px;
-    overflow: hidden;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 15px;
 }
 
-.search-box input {
-    flex: 1;
-    padding: 1rem;
-    border: none;
-    font-size: 1rem;
+.search-input {
+    width: 300px;
+    padding: 12px 20px;
+    border: 2px solid #ddd;
+    border-right: none;
+    border-radius: 6px 0 0 6px;
+    font-size: 16px;
     outline: none;
+    background-color: white;
 }
 
-.search-box button {
-    background: #e91e63;
+.search-input:focus {
+    border-color: #e91e63;
+}
+
+.search-btn {
+    padding: 12px 24px;
+    background-color: #e91e63;
     color: white;
     border: none;
-    padding: 1rem 2rem;
+    border-radius: 0 6px 6px 0;
+    font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
-    font-weight: bold;
     transition: background-color 0.3s;
 }
 
-.search-box button:hover {
-    background: #c2185b;
+.search-btn:hover {
+    background-color: #c2185b;
 }
 
 .search-results {
     color: #666;
-    font-size: 0.9rem;
+    font-size: 14px;
 }
 
-.content-wrapper {
-    display: grid;
-    grid-template-columns: 300px 1fr;
-    gap: 2rem;
+/* メインコンテンツ */
+.main-content {
+    padding: 20px 0;
 }
 
-/* サイドバー */
-.sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-.widget {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-.widget h3 {
-    margin-bottom: 1rem;
-    color: #667eea;
-    border-bottom: 2px solid #667eea;
-    padding-bottom: 0.5rem;
-}
-
-.category-list {
-    list-style: none;
-}
-
-.category-list li {
-    margin-bottom: 0.5rem;
-}
-
-.category-list a {
-    display: flex;
-    align-items: center;
-    padding: 0.5rem;
-    color: #333;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-.category-list a:hover,
-.category-list a.active {
-    background-color: #667eea;
-    color: white;
-}
-
-.category-list i {
-    margin-right: 0.5rem;
-    width: 20px;
-}
-
-/* 統計情報 */
-.board-stats {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.stat-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.5rem;
-    background: #f8f9fa;
-    border-radius: 5px;
-}
-
-.stat-number {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #667eea;
-}
-
-.stat-label {
-    color: #666;
-    font-size: 0.9rem;
-}
-
-/* 人気スレッド */
-.popular-threads {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.popular-thread-item {
-    padding: 0.5rem;
-    background: #f8f9fa;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.popular-thread-item:hover {
-    background: #e9ecef;
-}
-
-.popular-thread-title {
-    font-size: 0.9rem;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 0.2rem;
-}
-
-.popular-thread-meta {
-    font-size: 0.8rem;
-    color: #666;
-}
-
-/* 掲示板コンテンツ */
-.board-content {
-    background: white;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-.board-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-}
-
-.board-header h2 {
-    color: #667eea;
-}
-
-.btn-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: transform 0.2s;
-}
-
-.btn-primary:hover {
-    transform: translateY(-2px);
-}
-
-.thread-filters {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-}
-
-.filter-btn {
-    padding: 0.5rem 1rem;
-    border: 2px solid #667eea;
-    background: white;
-    color: #667eea;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.filter-btn:hover,
-.filter-btn.active {
-    background: #667eea;
-    color: white;
-}
-
-/* ライバーグリッド */
 .liver-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
 }
 
+/* ライバーカード */
 .liver-card {
     background: white;
-    border-radius: 15px;
-    padding: 2rem;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
     cursor: pointer;
-    border: 2px solid transparent;
+    border: 1px solid #e0e0e0;
 }
 
 .liver-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-    border-color: #667eea;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
 }
 
 .liver-card-header {
-    text-align: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 20px;
 }
 
-.liver-avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin: 0 auto 1rem;
-    display: block;
-    border: 3px solid #667eea;
+.liver-card-title {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 8px;
+    font-weight: 500;
 }
 
 .liver-name {
-    font-size: 1.5rem;
-    font-weight: bold;
+    font-size: 24px;
+    font-weight: 700;
     color: #333;
-    margin-bottom: 0.5rem;
+    margin-bottom: 15px;
 }
 
-.liver-category-badge {
-    background: #667eea;
-    color: white;
-    padding: 0.3rem 0.8rem;
-    border-radius: 15px;
-    font-size: 0.8rem;
-    display: inline-block;
+.liver-meta {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 20px;
 }
 
 .liver-description {
     color: #555;
     line-height: 1.8;
-    margin-bottom: 1.5rem;
-    min-height: 100px;
-}
-
-.liver-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.9rem;
-    color: #666;
-    margin-bottom: 1rem;
-}
-
-.liver-stats {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    margin-bottom: 1rem;
-}
-
-.liver-stat {
-    text-align: center;
-}
-
-.liver-stat-number {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #667eea;
-    display: block;
-}
-
-.liver-stat-label {
-    font-size: 0.8rem;
-    color: #666;
+    font-size: 15px;
+    margin-bottom: 25px;
+    min-height: 120px;
 }
 
 .liver-actions {
     display: flex;
-    gap: 0.5rem;
+    gap: 10px;
 }
 
-.liver-actions .btn-secondary {
+.action-btn {
     flex: 1;
-    text-align: center;
-}
-
-.btn-secondary {
-    background: white;
-    color: #667eea;
-    border: 2px solid #667eea;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: all 0.3s;
-}
-
-.btn-secondary:hover {
-    background: #667eea;
-    color: white;
-}
-
-/* ページネーション */
-.pagination {
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-    margin-top: 2rem;
-}
-
-.page-btn {
-    padding: 0.5rem 1rem;
+    padding: 10px 16px;
     border: 1px solid #ddd;
     background: white;
-    color: #333;
+    color: #666;
+    border-radius: 6px;
+    font-size: 14px;
     cursor: pointer;
-    border-radius: 5px;
     transition: all 0.3s;
 }
 
-.page-btn:hover,
-.page-btn.active {
-    background: #667eea;
+.action-btn:hover {
+    background-color: #f5f5f5;
+    border-color: #bbb;
+}
+
+.action-btn.primary {
+    background-color: #e91e63;
     color: white;
-    border-color: #667eea;
+    border-color: #e91e63;
+}
+
+.action-btn.primary:hover {
+    background-color: #c2185b;
+}
+
+/* 新規ライバー追加ボタン */
+.add-liver-section {
+    text-align: center;
+    padding: 40px 0;
+}
+
+.add-liver-btn {
+    padding: 15px 30px;
+    background-color: #e91e63;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.add-liver-btn:hover {
+    background-color: #c2185b;
 }
 
 /* モーダル */
@@ -452,20 +203,30 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.5);
     z-index: 1000;
 }
 
 .modal.active {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: block;
+}
+
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
 }
 
 .modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background: white;
-    padding: 2rem;
-    border-radius: 10px;
+    border-radius: 12px;
+    padding: 30px;
     width: 90%;
     max-width: 500px;
     max-height: 90vh;
@@ -473,240 +234,244 @@ body {
 }
 
 .modal-content.large {
-    max-width: 800px;
+    max-width: 700px;
 }
 
 .modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.modal-header h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
 }
 
 .modal-close {
     background: none;
     border: none;
-    font-size: 2rem;
+    font-size: 24px;
+    color: #999;
     cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-close:hover {
     color: #666;
 }
 
-.thread-form,
-.reply-form {
+/* フォーム */
+.liver-form,
+.comment-form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 20px;
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 8px;
 }
 
 .form-group label {
-    font-weight: bold;
+    font-weight: 600;
     color: #333;
+    font-size: 14px;
 }
 
 .form-group input,
-.form-group select,
 .form-group textarea {
-    padding: 0.75rem;
-    border: 2px solid #e0e0e0;
-    border-radius: 5px;
-    font-size: 1rem;
+    padding: 12px 16px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 15px;
+    font-family: inherit;
     transition: border-color 0.3s;
 }
 
 .form-group input:focus,
-.form-group select:focus,
 .form-group textarea:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: #e91e63;
 }
 
-/* スレッド詳細 */
-.thread-detail-content {
-    max-height: 70vh;
-    overflow-y: auto;
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
 }
 
-.thread-detail-header {
-    padding: 1.5rem;
+.submit-btn {
+    padding: 15px 30px;
+    background-color: #e91e63;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #c2185b;
+}
+
+/* ライバー詳細 */
+.liver-detail-header {
+    text-align: center;
+    padding: 30px;
     background: #f8f9fa;
-    border-radius: 10px;
-    margin-bottom: 2rem;
+    border-radius: 12px;
+    margin-bottom: 30px;
 }
 
-.thread-detail-title {
-    font-size: 1.5rem;
-    font-weight: bold;
+.liver-detail-name {
+    font-size: 28px;
+    font-weight: 700;
     color: #333;
-    margin-bottom: 1rem;
+    margin-bottom: 15px;
 }
 
-.thread-detail-meta {
-    display: flex;
-    gap: 1rem;
-    font-size: 0.9rem;
-    color: #666;
-    margin-bottom: 1rem;
-}
-
-.thread-detail-content-text {
+.liver-detail-description {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
     line-height: 1.8;
     color: #555;
 }
 
-.replies-section {
-    margin-top: 2rem;
+.comments-section {
+    margin-top: 30px;
 }
 
-.replies-header {
+.comments-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid #667eea;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e91e63;
 }
 
-.reply-item {
-    padding: 1rem;
-    border: 1px solid #e0e0e0;
+.comments-header h4 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+.comment-item {
+    background: #f8f9fa;
+    padding: 20px;
     border-radius: 8px;
-    margin-bottom: 1rem;
-    background: white;
+    margin-bottom: 15px;
 }
 
-.reply-header {
+.comment-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.5rem;
-    font-size: 0.9rem;
-    color: #666;
+    margin-bottom: 10px;
+    font-size: 14px;
 }
 
-.reply-author {
-    font-weight: bold;
-    color: #667eea;
+.comment-author {
+    font-weight: 600;
+    color: #e91e63;
 }
 
-.reply-content {
-    line-height: 1.6;
+.comment-time {
+    color: #999;
+}
+
+.comment-content {
+    line-height: 1.7;
     color: #555;
 }
 
-/* フッター */
-.footer {
-    background: #333;
-    color: white;
-    padding: 2rem 0;
-    margin-top: 3rem;
+/* 空の状態 */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #999;
 }
 
-.footer .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.footer-links {
-    display: flex;
-    gap: 2rem;
-}
-
-.footer-links a {
-    color: white;
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-.footer-links a:hover {
-    color: #667eea;
+.empty-state-icon {
+    font-size: 48px;
+    margin-bottom: 20px;
+    opacity: 0.5;
 }
 
 /* レスポンシブデザイン */
 @media (max-width: 768px) {
-    .header .container {
-        flex-direction: column;
-        gap: 1rem;
+    .container {
+        padding: 0 15px;
     }
-
-    .nav {
-        flex-wrap: wrap;
-        justify-content: center;
+    
+    .title {
+        font-size: 1.8rem;
     }
-
-    .content-wrapper {
+    
+    .search-input {
+        width: 250px;
+    }
+    
+    .liver-grid {
         grid-template-columns: 1fr;
+        gap: 20px;
     }
-
-    .sidebar {
-        order: 2;
+    
+    .liver-card {
+        padding: 20px;
     }
-
-    .board-content {
-        order: 1;
+    
+    .liver-name {
+        font-size: 20px;
     }
-
-    .board-header {
-        flex-direction: column;
-        gap: 1rem;
-        align-items: stretch;
-    }
-
-    .thread-filters {
-        flex-wrap: wrap;
-    }
-
-    .thread-header {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-
-    .thread-meta {
-        flex-wrap: wrap;
-    }
-
-    .thread-stats {
-        flex-wrap: wrap;
-    }
-
-    .footer .container {
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
-    }
-
-    .hero h2 {
-        font-size: 2rem;
-    }
-
+    
     .modal-content {
-        margin: 1rem;
-        width: calc(100% - 2rem);
+        width: 95%;
+        padding: 20px;
     }
+    
+    .liver-actions {
+        flex-direction: column;
+    }
+}
 
-    .modal-content.large {
-        max-width: calc(100% - 2rem);
+@media (max-width: 480px) {
+    .search-box {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .search-input {
+        width: 100%;
+        max-width: 300px;
+        border-radius: 6px;
+        border-right: 2px solid #ddd;
+    }
+    
+    .search-btn {
+        width: 100%;
+        max-width: 300px;
+        border-radius: 6px;
     }
 }
 
 /* アニメーション */
-@keyframes slideIn {
-    from {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -718,22 +483,32 @@ body {
     }
 }
 
-.notification {
-    animation: slideIn 0.3s ease;
-}
-
-.thread-item {
+.liver-card {
     animation: fadeIn 0.5s ease;
 }
 
-/* 通知スタイル */
+/* 通知 */
 .notification {
     position: fixed;
     top: 20px;
     right: 20px;
     background: #4CAF50;
     color: white;
-    padding: 1rem 2rem;
-    border-radius: 5px;
+    padding: 15px 25px;
+    border-radius: 6px;
     z-index: 1001;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }

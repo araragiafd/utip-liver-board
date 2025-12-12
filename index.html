@@ -3,102 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ライバー掲示板 - UTIP Live</title>
+    <title>お気に入りのライバーを検索</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#667eea">
-    <link rel="icon" type="image/png" href="https://via.placeholder.com/32x32" sizes="32x32">
-    <link rel="apple-touch-icon" href="https://via.placeholder.com/180x180">
+    <meta name="theme-color" content="#e91e63">
 </head>
 <body>
-    <header class="header">
-        <div class="container">
-            <h1 class="logo">
-                <i class="fas fa-broadcast-tower"></i>
-                ライバー掲示板
-            </h1>
-            <nav class="nav">
-                <a href="#home" class="nav-link active">ホーム</a>
-                <a href="#popular" class="nav-link">人気</a>
-                <a href="#new" class="nav-link">新着</a>
-                <a href="#categories" class="nav-link">カテゴリ</a>
-            </nav>
-        </div>
-    </header>
-
-    <main class="main">
-        <div class="container">
-            <section class="hero">
-                <h2>お気に入りのライバーを検索</h2>
-                
-                <div class="search-section">
-                    <div class="search-box">
-                        <input type="text" id="liverSearch" placeholder="ライバー名">
-                        <button id="searchBtn">検索</button>
-                    </div>
-                    <div class="search-results" id="searchResults">検索結果：</div>
+    <div class="container">
+        <!-- ヘッダー部分 -->
+        <header class="header">
+            <h1 class="title">お気に入りのライバーを検索</h1>
+            
+            <div class="search-section">
+                <div class="search-box">
+                    <input type="text" id="liverSearch" placeholder="ライバー名" class="search-input">
+                    <button id="searchBtn" class="search-btn">検索</button>
                 </div>
-            </section>
-
-            <div class="content-wrapper">
-                <aside class="sidebar">
-                    <div class="widget">
-                        <h3>カテゴリ</h3>
-                        <ul class="category-list">
-                            <li><a href="#all" data-category="all" class="active"><i class="fas fa-list"></i> すべて</a></li>
-                            <li><a href="#gaming" data-category="gaming"><i class="fas fa-gamepad"></i> ゲーム配信</a></li>
-                            <li><a href="#music" data-category="music"><i class="fas fa-music"></i> 音楽配信</a></li>
-                            <li><a href="#chat" data-category="chat"><i class="fas fa-comments"></i> 雑談配信</a></li>
-                            <li><a href="#art" data-category="art"><i class="fas fa-palette"></i> お絵描き配信</a></li>
-                            <li><a href="#cooking" data-category="cooking"><i class="fas fa-utensils"></i> 料理配信</a></li>
-                            <li><a href="#general" data-category="general"><i class="fas fa-bullhorn"></i> 雑談・質問</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="widget">
-                        <h3>人気スレッド</h3>
-                        <div class="popular-threads" id="popularThreads">
-                            <!-- 人気スレッドが動的に表示される -->
-                        </div>
-                    </div>
-
-                    <div class="widget">
-                        <h3>統計情報</h3>
-                        <div class="board-stats" id="boardStats">
-                            <div class="stat-item">
-                                <span class="stat-number" id="totalThreads">0</span>
-                                <span class="stat-label">スレッド数</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number" id="totalPosts">0</span>
-                                <span class="stat-label">投稿数</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number" id="activeUsers">12</span>
-                                <span class="stat-label">オンライン</span>
-                            </div>
-                        </div>
-                    </div>
-                </aside>
-
-                <section class="board-content">
-                    <div class="board-header">
-                        <button class="btn-primary" id="addLiverBtn">
-                            <i class="fas fa-plus"></i> 紹介したいライバー
-                        </button>
-                    </div>
-
-                    <div class="liver-grid" id="liverGrid">
-                        <!-- ライバーカードがここに動的に追加される -->
-                    </div>
-                </section>
+                <div class="search-results" id="searchResults">検索結果：</div>
             </div>
+        </header>
+
+        <!-- メインコンテンツ -->
+        <main class="main-content">
+            <div class="liver-grid" id="liverGrid">
+                <!-- ライバーカードがここに動的に追加される -->
+            </div>
+        </main>
+
+        <!-- 新規ライバー追加ボタン -->
+        <div class="add-liver-section">
+            <button class="add-liver-btn" id="addLiverBtn">紹介したいライバー</button>
         </div>
-    </main>
+    </div>
 
     <!-- ライバー追加モーダル -->
     <div class="modal" id="addLiverModal">
+        <div class="modal-overlay" id="modalOverlay"></div>
         <div class="modal-content">
             <div class="modal-header">
                 <h3>紹介したいライバー</h3>
@@ -107,35 +47,20 @@
             <form class="liver-form" id="liverForm">
                 <div class="form-group">
                     <label for="liverName">ライバー名</label>
-                    <input type="text" id="liverName" required placeholder="ライバーの名前">
-                </div>
-                <div class="form-group">
-                    <label for="liverCategory">配信カテゴリ</label>
-                    <select id="liverCategory" required>
-                        <option value="">選択してください</option>
-                        <option value="gaming">ゲーム配信</option>
-                        <option value="music">音楽配信</option>
-                        <option value="chat">雑談配信</option>
-                        <option value="art">お絵描き配信</option>
-                        <option value="cooking">料理配信</option>
-                        <option value="other">その他</option>
-                    </select>
+                    <input type="text" id="liverName" required placeholder="ライバーの名前を入力">
                 </div>
                 <div class="form-group">
                     <label for="liverDescription">コメント・エピソード</label>
-                    <textarea id="liverDescription" rows="5" required placeholder="このライバーについてのコメントやエピソードを書いてください..."></textarea>
+                    <textarea id="liverDescription" rows="6" required placeholder="このライバーについてのコメントやエピソードを書いてください..."></textarea>
                 </div>
-                <div class="form-group">
-                    <label for="liverAuthor">投稿者名</label>
-                    <input type="text" id="liverAuthor" required placeholder="あなたの名前（匿名可）">
-                </div>
-                <button type="submit" class="btn-primary">ライバーを追加</button>
+                <button type="submit" class="submit-btn">投稿する</button>
             </form>
         </div>
     </div>
 
     <!-- コメント追加モーダル -->
     <div class="modal" id="commentModal">
+        <div class="modal-overlay"></div>
         <div class="modal-content">
             <div class="modal-header">
                 <h3 id="commentModalTitle">コメントを追加</h3>
@@ -144,20 +69,17 @@
             <form class="comment-form" id="commentForm">
                 <div class="form-group">
                     <label for="commentContent">コメント・エピソード</label>
-                    <textarea id="commentContent" rows="4" required placeholder="このライバーについてのコメントやエピソードを書いてください..."></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="commentAuthor">投稿者名</label>
-                    <input type="text" id="commentAuthor" required placeholder="名前（匿名可）">
+                    <textarea id="commentContent" rows="4" required placeholder="コメントやエピソードを書いてください..."></textarea>
                 </div>
                 <input type="hidden" id="commentLiverId">
-                <button type="submit" class="btn-primary">コメントを投稿</button>
+                <button type="submit" class="submit-btn">コメントを投稿</button>
             </form>
         </div>
     </div>
 
     <!-- ライバー詳細モーダル -->
     <div class="modal" id="liverDetailModal">
+        <div class="modal-overlay"></div>
         <div class="modal-content large">
             <div class="modal-header">
                 <h3 id="liverDetailTitle">ライバー詳細</h3>
@@ -168,17 +90,6 @@
             </div>
         </div>
     </div>
-
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2024 UTIP Live. All rights reserved.</p>
-            <div class="footer-links">
-                <a href="https://utip-live.com/">UTIP Live</a>
-                <a href="#privacy">プライバシーポリシー</a>
-                <a href="#terms">利用規約</a>
-            </div>
-        </div>
-    </footer>
 
     <script src="script.js"></script>
 </body>
