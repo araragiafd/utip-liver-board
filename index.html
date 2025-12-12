@@ -30,12 +30,12 @@
     <main class="main">
         <div class="container">
             <section class="hero">
-                <h2>ライバー評価掲示板</h2>
-                <p>お気に入りのライバーについて感想や評価を共有しよう</p>
+                <h2>ライバー掲示板</h2>
+                <p>ライバーについての感想・評価・情報交換の場</p>
                 
                 <div class="search-section">
                     <div class="search-box">
-                        <input type="text" id="liverSearch" placeholder="ライバー名で検索...">
+                        <input type="text" id="threadSearch" placeholder="スレッドを検索...">
                         <button id="searchBtn"><i class="fas fa-search"></i></button>
                     </div>
                 </div>
@@ -44,134 +44,140 @@
             <div class="content-wrapper">
                 <aside class="sidebar">
                     <div class="widget">
-                        <h3>配信カテゴリ</h3>
+                        <h3>カテゴリ</h3>
                         <ul class="category-list">
-                            <li><a href="#gaming"><i class="fas fa-gamepad"></i> ゲーム配信</a></li>
-                            <li><a href="#music"><i class="fas fa-music"></i> 音楽配信</a></li>
-                            <li><a href="#chat"><i class="fas fa-comments"></i> 雑談配信</a></li>
-                            <li><a href="#art"><i class="fas fa-palette"></i> お絵描き配信</a></li>
-                            <li><a href="#cooking"><i class="fas fa-utensils"></i> 料理配信</a></li>
-                            <li><a href="#other"><i class="fas fa-ellipsis-h"></i> その他</a></li>
+                            <li><a href="#all" data-category="all" class="active"><i class="fas fa-list"></i> すべて</a></li>
+                            <li><a href="#gaming" data-category="gaming"><i class="fas fa-gamepad"></i> ゲーム配信</a></li>
+                            <li><a href="#music" data-category="music"><i class="fas fa-music"></i> 音楽配信</a></li>
+                            <li><a href="#chat" data-category="chat"><i class="fas fa-comments"></i> 雑談配信</a></li>
+                            <li><a href="#art" data-category="art"><i class="fas fa-palette"></i> お絵描き配信</a></li>
+                            <li><a href="#cooking" data-category="cooking"><i class="fas fa-utensils"></i> 料理配信</a></li>
+                            <li><a href="#general" data-category="general"><i class="fas fa-bullhorn"></i> 雑談・質問</a></li>
                         </ul>
                     </div>
 
                     <div class="widget">
-                        <h3>人気ライバー</h3>
-                        <div class="popular-livers" id="popularLivers">
-                            <!-- 人気ライバーが動的に表示される -->
+                        <h3>人気スレッド</h3>
+                        <div class="popular-threads" id="popularThreads">
+                            <!-- 人気スレッドが動的に表示される -->
                         </div>
                     </div>
 
                     <div class="widget">
-                        <h3>最新の評価</h3>
-                        <div class="recent-reviews" id="recentReviews">
-                            <!-- 最新の評価が動的に表示される -->
+                        <h3>統計情報</h3>
+                        <div class="board-stats" id="boardStats">
+                            <div class="stat-item">
+                                <span class="stat-number" id="totalThreads">0</span>
+                                <span class="stat-label">スレッド数</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" id="totalPosts">0</span>
+                                <span class="stat-label">投稿数</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" id="activeUsers">12</span>
+                                <span class="stat-label">オンライン</span>
+                            </div>
                         </div>
                     </div>
                 </aside>
 
                 <section class="board-content">
                     <div class="board-header">
-                        <h2>ライバー一覧</h2>
-                        <button class="btn-primary" id="addLiverBtn">
-                            <i class="fas fa-plus"></i> ライバー追加
+                        <h2>スレッド一覧</h2>
+                        <button class="btn-primary" id="newThreadBtn">
+                            <i class="fas fa-plus"></i> 新規スレッド作成
                         </button>
                     </div>
 
-                    <div class="sort-filters">
-                        <button class="filter-btn active" data-sort="popular">人気順</button>
-                        <button class="filter-btn" data-sort="newest">新着順</button>
-                        <button class="filter-btn" data-sort="rating">評価順</button>
-                        <button class="filter-btn" data-sort="reviews">レビュー数順</button>
+                    <div class="thread-filters">
+                        <button class="filter-btn active" data-sort="latest">最新順</button>
+                        <button class="filter-btn" data-sort="popular">人気順</button>
+                        <button class="filter-btn" data-sort="replies">レス数順</button>
+                        <button class="filter-btn" data-sort="created">作成順</button>
                     </div>
 
-                    <div class="livers-grid" id="liversGrid">
-                        <!-- ライバーカードがここに動的に追加される -->
+                    <div class="thread-list" id="threadList">
+                        <!-- スレッドがここに動的に追加される -->
+                    </div>
+
+                    <div class="pagination" id="pagination">
+                        <!-- ページネーションがここに表示される -->
                     </div>
                 </section>
             </div>
         </div>
     </main>
 
-    <!-- ライバー追加モーダル -->
-    <div class="modal" id="addLiverModal">
+    <!-- 新規スレッド作成モーダル -->
+    <div class="modal" id="newThreadModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>ライバー追加</h3>
-                <button class="modal-close" id="closeLiverModal">&times;</button>
+                <h3>新規スレッド作成</h3>
+                <button class="modal-close" id="closeThreadModal">&times;</button>
             </div>
-            <form class="liver-form" id="liverForm">
+            <form class="thread-form" id="threadForm">
                 <div class="form-group">
-                    <label for="liverName">ライバー名</label>
-                    <input type="text" id="liverName" required>
+                    <label for="threadTitle">スレッドタイトル</label>
+                    <input type="text" id="threadTitle" required placeholder="例: 〇〇ライバーについて語ろう">
                 </div>
                 <div class="form-group">
-                    <label for="liverCategory">配信カテゴリ</label>
-                    <select id="liverCategory" required>
+                    <label for="threadCategory">カテゴリ</label>
+                    <select id="threadCategory" required>
                         <option value="">選択してください</option>
                         <option value="gaming">ゲーム配信</option>
                         <option value="music">音楽配信</option>
                         <option value="chat">雑談配信</option>
                         <option value="art">お絵描き配信</option>
                         <option value="cooking">料理配信</option>
-                        <option value="other">その他</option>
+                        <option value="general">雑談・質問</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="liverPlatform">配信プラットフォーム</label>
-                    <select id="liverPlatform" required>
-                        <option value="">選択してください</option>
-                        <option value="youtube">YouTube</option>
-                        <option value="twitch">Twitch</option>
-                        <option value="niconico">ニコニコ生放送</option>
-                        <option value="mildom">Mildom</option>
-                        <option value="openrec">OPENREC</option>
-                        <option value="other">その他</option>
-                    </select>
+                    <label for="threadContent">内容</label>
+                    <textarea id="threadContent" rows="5" required placeholder="スレッドの内容を書いてください..."></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="liverDescription">説明</label>
-                    <textarea id="liverDescription" rows="3" placeholder="ライバーの特徴や配信内容など..."></textarea>
+                    <label for="threadAuthor">投稿者名</label>
+                    <input type="text" id="threadAuthor" required placeholder="名前（匿名可）">
                 </div>
-                <button type="submit" class="btn-primary">ライバーを追加</button>
+                <button type="submit" class="btn-primary">スレッドを作成</button>
             </form>
         </div>
     </div>
 
-    <!-- レビュー投稿モーダル -->
-    <div class="modal" id="reviewModal">
+    <!-- レス投稿モーダル -->
+    <div class="modal" id="replyModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="reviewModalTitle">レビューを投稿</h3>
-                <button class="modal-close" id="closeReviewModal">&times;</button>
+                <h3 id="replyModalTitle">レスを投稿</h3>
+                <button class="modal-close" id="closeReplyModal">&times;</button>
             </div>
-            <form class="review-form" id="reviewForm">
+            <form class="reply-form" id="replyForm">
                 <div class="form-group">
-                    <label for="reviewRating">評価</label>
-                    <div class="star-rating" id="starRating">
-                        <span class="star" data-rating="1">★</span>
-                        <span class="star" data-rating="2">★</span>
-                        <span class="star" data-rating="3">★</span>
-                        <span class="star" data-rating="4">★</span>
-                        <span class="star" data-rating="5">★</span>
-                    </div>
-                    <input type="hidden" id="reviewRating" required>
+                    <label for="replyContent">レス内容</label>
+                    <textarea id="replyContent" rows="4" required placeholder="レスの内容を書いてください..."></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="reviewTitle">タイトル</label>
-                    <input type="text" id="reviewTitle" required placeholder="レビューのタイトル">
+                    <label for="replyAuthor">投稿者名</label>
+                    <input type="text" id="replyAuthor" required placeholder="名前（匿名可）">
                 </div>
-                <div class="form-group">
-                    <label for="reviewContent">感想・評価</label>
-                    <textarea id="reviewContent" rows="5" required placeholder="このライバーについての感想や評価を書いてください..."></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="reviewerName">投稿者名</label>
-                    <input type="text" id="reviewerName" required placeholder="あなたの名前（匿名可）">
-                </div>
-                <input type="hidden" id="reviewLiverId">
-                <button type="submit" class="btn-primary">レビューを投稿</button>
+                <input type="hidden" id="replyThreadId">
+                <button type="submit" class="btn-primary">レスを投稿</button>
             </form>
+        </div>
+    </div>
+
+    <!-- スレッド詳細モーダル -->
+    <div class="modal" id="threadDetailModal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3 id="threadDetailTitle">スレッド詳細</h3>
+                <button class="modal-close" id="closeDetailModal">&times;</button>
+            </div>
+            <div class="thread-detail-content" id="threadDetailContent">
+                <!-- スレッドの詳細とレスがここに表示される -->
+            </div>
         </div>
     </div>
 
