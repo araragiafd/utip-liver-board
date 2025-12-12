@@ -137,8 +137,29 @@ body {
     color: #555;
     line-height: 1.8;
     font-size: 15px;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     min-height: 120px;
+}
+
+.liver-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 12px 0;
+    border-top: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 14px;
+    color: #666;
+}
+
+.comment-count {
+    font-weight: 600;
+    color: #e91e63;
+}
+
+.post-time {
+    color: #999;
 }
 
 .liver-actions {
@@ -376,13 +397,20 @@ body {
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 15px;
+    border-left: 4px solid #e91e63;
+    transition: all 0.3s ease;
+}
+
+.comment-item:hover {
+    background: #f0f0f0;
+    transform: translateX(5px);
 }
 
 .comment-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     font-size: 14px;
 }
 
@@ -393,11 +421,27 @@ body {
 
 .comment-time {
     color: #999;
+    font-size: 13px;
 }
 
 .comment-content {
-    line-height: 1.7;
+    line-height: 1.8;
     color: #555;
+    font-size: 15px;
+}
+
+.comment-number {
+    display: inline-block;
+    background: #e91e63;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-right: 10px;
 }
 
 /* 空の状態 */
