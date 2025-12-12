@@ -1,11 +1,9 @@
-// ライバー評価掲示板のJavaScript
+// ライバー掲示板のJavaScript
 
-class LiverReviewBoard {
+class LiverBoard {
     constructor() {
         this.livers = [];
-        this.reviews = [];
-        this.currentSort = 'popular';
-        this.selectedRating = 0;
+        this.comments = {};
         this.init();
     }
 
@@ -13,8 +11,6 @@ class LiverReviewBoard {
         this.loadSampleData();
         this.bindEvents();
         this.renderLivers();
-        this.renderPopularLivers();
-        this.renderRecentReviews();
     }
 
     // サンプルデータを読み込み
@@ -23,109 +19,96 @@ class LiverReviewBoard {
         this.livers = [
             {
                 id: 1,
-                name: "ゲーミング太郎",
-                category: "gaming",
-                platform: "youtube",
-                description: "FPSゲームを中心に配信している熱血ゲーマー。視聴者との交流を大切にしています。",
-                avatar: "https://via.placeholder.com/60x60",
-                totalReviews: 25,
-                averageRating: 4.2,
-                addedDate: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30) // 30日前
+                name: "氷雨",
+                description: "氷雨くん、他枠で見かけた時のくべくべ笑いをしてくれ頭おかしいと思った！あの笑い方は今でも忘れられてあかがかう？！あれからは全部見てるよ！れからもたくさん配信日を増やしてね！毎日のご配信日を楽しみにしてるよ！",
+                timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2),
+                commentCount: 3
             },
             {
                 id: 2,
-                name: "歌姫ちゃん",
-                category: "music",
-                platform: "twitch",
-                description: "アニソンやボカロ曲を中心に歌配信をしています。リクエストも受け付けています！",
-                avatar: "https://via.placeholder.com/60x60",
-                totalReviews: 42,
-                averageRating: 4.7,
-                addedDate: new Date(Date.now() - 1000 * 60 * 60 * 24 * 60) // 60日前
+                name: "瑠璃川あむ",
+                description: "歌枠を見始めて1年半くらいになりますが、この人の歌声に魅了されています。特に感情を込めた歌い方が素晴らしく、聞いているだけで涙が出てきます。これからも応援しています！",
+                timestamp: new Date(Date.now() - 1000 * 60 * 60 * 5),
+                commentCount: 4
             },
             {
                 id: 3,
-                name: "まったり雑談マン",
-                category: "chat",
-                platform: "niconico",
-                description: "深夜の雑談配信が人気。リスナーとのゆるい会話が魅力です。",
-                avatar: "https://via.placeholder.com/60x60",
-                totalReviews: 18,
-                averageRating: 4.0,
-                addedDate: new Date(Date.now() - 1000 * 60 * 60 * 24 * 15) // 15日前
-            },
-            {
-                id: 4,
-                name: "お絵描きアーティスト",
-                category: "art",
-                platform: "youtube",
-                description: "イラスト制作過程を配信。初心者向けの描き方講座も人気です。",
-                avatar: "https://via.placeholder.com/60x60",
-                totalReviews: 33,
-                averageRating: 4.5,
-                addedDate: new Date(Date.now() - 1000 * 60 * 60 * 24 * 45) // 45日前
-            },
-            {
-                id: 5,
-                name: "料理系ライバー",
-                category: "cooking",
-                platform: "openrec",
-                description: "簡単で美味しい料理を作りながら配信。レシピも公開しています。",
-                avatar: "https://via.placeholder.com/60x60",
-                totalReviews: 21,
-                averageRating: 4.3,
-                addedDate: new Date(Date.now() - 1000 * 60 * 60 * 24 * 20) // 20日前
+                name: "ブライアン",
+                description: "初見さんも常連さんも分け隔てなく接してくれるライバーさんです。雑談の内容も面白く、いつも楽しく配信を見させてもらっています。深夜の配信でも元気いっぱいで、見ているこちらも元気をもらえます！",
+                timestamp: new Date(Date.now() - 1000 * 60 * 60 * 8),
+                commentCount: 5
             }
         ];
 
-        // レビューデータ
-        this.reviews = [
-            {
-                id: 1,
-                liverId: 1,
-                title: "とても面白い配信です！",
-                content: "ゲームの腕前もさることながら、トークも面白くて毎回楽しく見させてもらっています。",
-                rating: 5,
-                reviewer: "ゲーム好き視聴者",
-                timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2) // 2時間前
-            },
-            {
-                id: 2,
-                liverId: 2,
-                title: "歌声が素晴らしい",
-                content: "透明感のある歌声で、聞いていてとても癒されます。リクエストにも応えてくれて嬉しいです。",
-                rating: 5,
-                reviewer: "音楽ファン",
-                timestamp: new Date(Date.now() - 1000 * 60 * 60 * 5) // 5時間前
-            },
-            {
-                id: 3,
-                liverId: 3,
-                title: "まったりできる配信",
-                content: "仕事で疲れた時に見ると、とてもリラックスできます。雑談の内容も面白いです。",
-                rating: 4,
-                reviewer: "会社員視聴者",
-                timestamp: new Date(Date.now() - 1000 * 60 * 60 * 8) // 8時間前
-            },
-            {
-                id: 4,
-                liverId: 4,
-                title: "絵の上達に役立つ",
-                content: "描き方のコツを丁寧に説明してくれるので、とても勉強になります。",
-                rating: 4,
-                reviewer: "絵描き初心者",
-                timestamp: new Date(Date.now() - 1000 * 60 * 60 * 12) // 12時間前
-            },
-            {
-                id: 5,
-                liverId: 5,
-                title: "料理のレパートリーが増えた",
-                content: "簡単で美味しそうな料理をたくさん教えてもらいました。実際に作ってみたら美味しかったです！",
-                rating: 4,
-                reviewer: "料理好き",
-                timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24) // 1日前
-            }
-        ];
+        // コメントデータ
+        this.comments = {
+            1: [
+                {
+                    id: 1,
+                    content: "氷雨くんの笑い方、確かに特徴的ですよね！でもそれが魅力的で癖になります。毎回配信楽しみにしています。",
+                    timestamp: new Date(Date.now() - 1000 * 60 * 60)
+                },
+                {
+                    id: 2,
+                    content: "あの笑い方分かります！最初はびっくりしたけど、今では氷雨くんの代名詞ですよね。配信頻度上がって嬉しいです。",
+                    timestamp: new Date(Date.now() - 1000 * 60 * 30)
+                },
+                {
+                    id: 3,
+                    content: "氷雨くんの配信はいつも元気をもらえます。ゲームも上手だし、トークも面白いので毎日見てます！",
+                    timestamp: new Date(Date.now() - 1000 * 60 * 15)
+                }
+            ],
+            2: [
+                {
+                    id: 4,
+                    content: "瑠璃川さんの歌声は本当に心に響きますね。特にバラードを歌っている時の表現力が素晴らしいです。",
+                    timestamp: new Date(Date.now() - 1000 * 60 * 45)
+                },
+                {
+                    id: 5,
+                    content: "1年半も見続けているなんてすごいですね！私も最近ファンになりました。リクエストにも応えてくれて嬉しいです。",
+                    timestamp: new Date(Date.now() - 1000 * 60 * 25)
+                },
+                {
+                    id: 6,
+                    content: "昨日の歌枠で涙が出ました。感情を込めた歌い方が本当に上手で、プロの歌手みたいです。",
+                    timestamp: new Date(Date.now() - 1000 * 60 * 10)
+                },
+                {
+                    id: 7,
+                    content: "瑠璃川あむさんの歌声に癒されています。仕事で疲れた時に聞くと心が軽くなります。ありがとうございます。",
+                    timestamp: new Date(Date.now() - 1000 * 60 * 5)
+                }
+            ],
+            3: [
+                {
+                    id: 8,
+                    content: "ブライアンさんの配信はいつも温かい雰囲気で癒されます。初見でも優しく迎えてくれて嬉しかったです。",
+                    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2)
+                },
+                {
+                    id: 9,
+                    content: "深夜配信でも元気いっぱいなのがすごいです！夜勤の私にとってはとても心強い存在です。",
+                    timestamp: new Date(Date.now() - 1000 * 60 * 50)
+                },
+                {
+                    id: 10,
+                    content: "雑談の内容がいつも面白くて、時間があっという間に過ぎてしまいます。話し方も聞きやすくて好きです。",
+                    timestamp: new Date(Date.now() - 1000 * 60 * 35)
+                },
+                {
+                    id: 11,
+                    content: "ブライアンさんの人柄の良さが配信から伝わってきます。視聴者同士の交流も促してくれて、コミュニティが温かいです。",
+                    timestamp: new Date(Date.now() - 1000 * 60 * 20)
+                },
+                {
+                    id: 12,
+                    content: "いつも元気をもらっています！落ち込んだ時にブライアンさんの配信を見ると前向きになれます。",
+                    timestamp: new Date(Date.now() - 1000 * 60 * 8)
+                }
+            ]
+        };
     }
 
     // イベントリスナーを設定
@@ -135,46 +118,39 @@ class LiverReviewBoard {
             this.showLiverModal();
         });
 
-        // ライバー追加モーダルを閉じる
+        // モーダルを閉じる
         document.getElementById('closeLiverModal').addEventListener('click', () => {
             this.hideLiverModal();
         });
 
-        // レビューモーダルを閉じる
-        document.getElementById('closeReviewModal').addEventListener('click', () => {
-            this.hideReviewModal();
+        document.getElementById('closeCommentModal').addEventListener('click', () => {
+            this.hideCommentModal();
         });
 
-        // モーダル外をクリックして閉じる
-        document.getElementById('addLiverModal').addEventListener('click', (e) => {
-            if (e.target.id === 'addLiverModal') {
-                this.hideLiverModal();
-            }
+        document.getElementById('closeDetailModal').addEventListener('click', () => {
+            this.hideDetailModal();
         });
 
-        document.getElementById('reviewModal').addEventListener('click', (e) => {
-            if (e.target.id === 'reviewModal') {
-                this.hideReviewModal();
-            }
+        // モーダルオーバーレイをクリックして閉じる
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                const modal = e.target.closest('.modal');
+                if (modal) {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
         });
 
-        // ライバー追加フォーム送信
+        // フォーム送信
         document.getElementById('liverForm').addEventListener('submit', (e) => {
             e.preventDefault();
             this.submitLiver();
         });
 
-        // レビューフォーム送信
-        document.getElementById('reviewForm').addEventListener('submit', (e) => {
+        document.getElementById('commentForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            this.submitReview();
-        });
-
-        // ソートボタン
-        document.querySelectorAll('[data-sort]').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                this.setSort(e.target.dataset.sort);
-            });
+            this.submitComment();
         });
 
         // 検索機能
@@ -188,77 +164,12 @@ class LiverReviewBoard {
             }
         });
 
-        // 星評価
-        document.querySelectorAll('#starRating .star').forEach(star => {
-            star.addEventListener('click', (e) => {
-                this.setRating(parseInt(e.target.dataset.rating));
-            });
-
-            star.addEventListener('mouseover', (e) => {
-                this.highlightStars(parseInt(e.target.dataset.rating));
-            });
-        });
-
-        document.getElementById('starRating').addEventListener('mouseleave', () => {
-            this.highlightStars(this.selectedRating);
-        });
-
-        // ナビゲーション
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.setActiveNav(e.target);
-            });
+        // リアルタイム検索
+        document.getElementById('liverSearch').addEventListener('input', () => {
+            this.searchLivers();
         });
     }
 
-// アニメーション用CSS
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideIn {
-        from {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-
-    .notification {
-        animation: slideIn 0.3s ease;
-    }
-
-    .liver-card {
-        animation: fadeIn 0.5s ease;
-    }
-
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-`;
-document.head.appendChild(style);
-
-// PWA対応（Service Worker登録）
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-            .then(registration => {
-                console.log('SW registered: ', registration);
-            })
-            .catch(registrationError => {
-                console.log('SW registration failed: ', registrationError);
-            });
-    });
-}
     // ライバー追加モーダルを表示
     showLiverModal() {
         document.getElementById('addLiverModal').classList.add('active');
@@ -272,140 +183,108 @@ if ('serviceWorker' in navigator) {
         document.getElementById('liverForm').reset();
     }
 
-    // レビューモーダルを表示
-    showReviewModal(liverId) {
+    // コメント追加モーダルを表示
+    showCommentModal(liverId) {
         const liver = this.livers.find(l => l.id === liverId);
         if (liver) {
-            document.getElementById('reviewModalTitle').textContent = `${liver.name}のレビューを投稿`;
-            document.getElementById('reviewLiverId').value = liverId;
-            document.getElementById('reviewModal').classList.add('active');
+            document.getElementById('commentModalTitle').textContent = `${liver.name}にコメントを追加`;
+            document.getElementById('commentLiverId').value = liverId;
+            document.getElementById('commentModal').classList.add('active');
             document.body.style.overflow = 'hidden';
         }
     }
 
-    // レビューモーダルを非表示
-    hideReviewModal() {
-        document.getElementById('reviewModal').classList.remove('active');
+    // コメント追加モーダルを非表示
+    hideCommentModal() {
+        document.getElementById('commentModal').classList.remove('active');
         document.body.style.overflow = 'auto';
-        document.getElementById('reviewForm').reset();
-        this.selectedRating = 0;
-        this.highlightStars(0);
+        document.getElementById('commentForm').reset();
+    }
+
+    // ライバー詳細モーダルを表示
+    showDetailModal(liverId) {
+        const liver = this.livers.find(l => l.id === liverId);
+        if (liver) {
+            document.getElementById('liverDetailTitle').textContent = liver.name;
+            this.renderLiverDetail(liver);
+            document.getElementById('liverDetailModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    // ライバー詳細モーダルを非表示
+    hideDetailModal() {
+        document.getElementById('liverDetailModal').classList.remove('active');
+        document.body.style.overflow = 'auto';
     }
 
     // 新規ライバーを追加
     submitLiver() {
-        const name = document.getElementById('liverName').value;
-        const category = document.getElementById('liverCategory').value;
-        const platform = document.getElementById('liverPlatform').value;
-        const description = document.getElementById('liverDescription').value;
+        const name = document.getElementById('liverName').value.trim();
+        const description = document.getElementById('liverDescription').value.trim();
 
-        if (!name || !category || !platform) {
-            alert('必須項目を入力してください。');
+        if (!name || !description) {
+            alert('すべての項目を入力してください。');
             return;
         }
 
         const newLiver = {
             id: this.livers.length + 1,
             name,
-            category,
-            platform,
-            description: description || 'まだ説明がありません。',
-            avatar: 'https://via.placeholder.com/60x60',
-            totalReviews: 0,
-            averageRating: 0,
-            addedDate: new Date()
+            description,
+            timestamp: new Date(),
+            commentCount: 0
         };
 
         this.livers.unshift(newLiver);
+        this.comments[newLiver.id] = [];
         this.renderLivers();
-        this.renderPopularLivers();
         this.hideLiverModal();
         this.showNotification('ライバーが追加されました！');
     }
 
-    // レビューを投稿
-    submitReview() {
-        const liverId = parseInt(document.getElementById('reviewLiverId').value);
-        const title = document.getElementById('reviewTitle').value;
-        const content = document.getElementById('reviewContent').value;
-        const reviewer = document.getElementById('reviewerName').value;
-        const rating = this.selectedRating;
+    // コメントを追加
+    submitComment() {
+        const liverId = parseInt(document.getElementById('commentLiverId').value);
+        const content = document.getElementById('commentContent').value.trim();
 
-        if (!title || !content || !reviewer || !rating) {
-            alert('すべての項目を入力してください。');
+        if (!content) {
+            alert('コメントを入力してください。');
             return;
         }
 
-        const newReview = {
-            id: this.reviews.length + 1,
-            liverId,
-            title,
+        const newComment = {
+            id: Date.now(),
             content,
-            rating,
-            reviewer,
             timestamp: new Date()
         };
 
-        this.reviews.unshift(newReview);
-        this.updateLiverRating(liverId);
-        this.renderLivers();
-        this.renderPopularLivers();
-        this.renderRecentReviews();
-        this.hideReviewModal();
-        this.showNotification('レビューが投稿されました！');
-    }
-
-    // ライバーの評価を更新
-    updateLiverRating(liverId) {
-        const liver = this.livers.find(l => l.id === liverId);
-        const liverReviews = this.reviews.filter(r => r.liverId === liverId);
-        
-        if (liver && liverReviews.length > 0) {
-            const totalRating = liverReviews.reduce((sum, review) => sum + review.rating, 0);
-            liver.averageRating = totalRating / liverReviews.length;
-            liver.totalReviews = liverReviews.length;
+        if (!this.comments[liverId]) {
+            this.comments[liverId] = [];
         }
-    }
 
-    // 星評価を設定
-    setRating(rating) {
-        this.selectedRating = rating;
-        document.getElementById('reviewRating').value = rating;
-        this.highlightStars(rating);
-    }
+        this.comments[liverId].push(newComment);
 
-    // 星をハイライト
-    highlightStars(rating) {
-        document.querySelectorAll('#starRating .star').forEach((star, index) => {
-            if (index < rating) {
-                star.classList.add('active');
-            } else {
-                star.classList.remove('active');
-            }
-        });
-    }
-
-    // ソートを設定
-    setSort(sort) {
-        this.currentSort = sort;
-        
-        document.querySelectorAll('[data-sort]').forEach(btn => {
-            btn.classList.remove('active');
-        });
-        document.querySelector(`[data-sort="${sort}"]`).classList.add('active');
+        // ライバーのコメント数を更新
+        const liver = this.livers.find(l => l.id === liverId);
+        if (liver) {
+            liver.commentCount = this.comments[liverId].length;
+        }
 
         this.renderLivers();
+        this.hideCommentModal();
+        this.showNotification('コメントが追加されました！');
     }
 
     // ライバーを検索
     searchLivers() {
-        const query = document.getElementById('liverSearch').value.toLowerCase();
+        const query = document.getElementById('liverSearch').value.toLowerCase().trim();
         this.renderLivers(query);
     }
 
     // ライバー一覧を表示
     renderLivers(searchQuery = '') {
-        const container = document.getElementById('liversGrid');
+        const container = document.getElementById('liverGrid');
         let filteredLivers = this.livers;
 
         // 検索フィルター
@@ -416,233 +295,153 @@ if ('serviceWorker' in navigator) {
             );
         }
 
-        // ソート
-        filteredLivers = this.sortLivers(filteredLivers);
+        // 検索結果を表示
+        const resultText = searchQuery ? `検索結果：${filteredLivers.length}件` : '検索結果：';
+        document.getElementById('searchResults').textContent = resultText;
 
         if (filteredLivers.length === 0) {
             container.innerHTML = `
-                <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: #666;">
-                    <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                <div class="empty-state" style="grid-column: 1 / -1;">
+                    <div class="empty-state-icon">🔍</div>
                     <p>該当するライバーが見つかりませんでした。</p>
                 </div>
             `;
-            return;
-        }
-
-        container.innerHTML = filteredLivers.map(liver => this.createLiverCardHTML(liver)).join('');
-        this.bindLiverActions();
-    }
-
-    // ライバーをソート
-    sortLivers(livers) {
-        switch (this.currentSort) {
-            case 'popular':
-                return livers.sort((a, b) => b.totalReviews - a.totalReviews);
-            case 'newest':
-                return livers.sort((a, b) => b.addedDate - a.addedDate);
-            case 'rating':
-                return livers.sort((a, b) => b.averageRating - a.averageRating);
-            case 'reviews':
-                return livers.sort((a, b) => b.totalReviews - a.totalReviews);
-            default:
-                return livers;
+        } else {
+            container.innerHTML = filteredLivers.map(liver => this.createLiverCardHTML(liver)).join('');
+            this.bindLiverActions();
         }
     }
 
     // ライバーカードHTMLを生成
     createLiverCardHTML(liver) {
-        const platformNames = {
-            youtube: 'YouTube',
-            twitch: 'Twitch',
-            niconico: 'ニコニコ生放送',
-            mildom: 'Mildom',
-            openrec: 'OPENREC',
-            other: 'その他'
-        };
-
-        const categoryNames = {
-            gaming: 'ゲーム配信',
-            music: '音楽配信',
-            chat: '雑談配信',
-            art: 'お絵描き配信',
-            cooking: '料理配信',
-            other: 'その他'
-        };
-
+        const commentCount = this.comments[liver.id] ? this.comments[liver.id].length : 0;
+        
         return `
             <div class="liver-card" data-id="${liver.id}">
-                <div class="liver-header">
-                    <img src="${liver.avatar}" alt="${liver.name}" class="liver-avatar">
-                    <div class="liver-info">
-                        <h3>${this.escapeHtml(liver.name)}</h3>
-                        <div class="liver-platform">${platformNames[liver.platform]}</div>
-                    </div>
-                </div>
-                
-                <div class="liver-rating">
-                    <div class="stars">${this.generateStars(liver.averageRating)}</div>
-                    <span class="rating-text">${liver.averageRating.toFixed(1)} (${liver.totalReviews}件)</span>
-                </div>
-                
-                <div class="liver-stats">
-                    <div class="stat-item">
-                        <div class="stat-value">${liver.totalReviews}</div>
-                        <div class="stat-label">レビュー</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">${liver.averageRating.toFixed(1)}</div>
-                        <div class="stat-label">評価</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">${categoryNames[liver.category]}</div>
-                        <div class="stat-label">カテゴリ</div>
-                    </div>
+                <div class="liver-card-header">
+                    <div class="liver-card-title">紹介したいライバー</div>
+                    <h3 class="liver-name">${this.escapeHtml(liver.name)}</h3>
+                    <div class="liver-meta">コメント・エピソード</div>
                 </div>
                 
                 <div class="liver-description">
                     ${this.escapeHtml(liver.description)}
                 </div>
                 
+                <div class="liver-stats">
+                    <div class="comment-count">
+                        💬 ${commentCount}件のコメント
+                    </div>
+                    <div class="post-time">
+                        📅 ${this.formatTime(liver.timestamp)}
+                    </div>
+                </div>
+                
                 <div class="liver-actions">
-                    <button class="btn-secondary review-btn" data-liver-id="${liver.id}">
-                        <i class="fas fa-star"></i> レビューする
+                    <button class="action-btn view-liver-btn" data-liver-id="${liver.id}">
+                        詳細を見る (${commentCount})
                     </button>
-                    <button class="btn-secondary view-reviews-btn" data-liver-id="${liver.id}">
-                        <i class="fas fa-eye"></i> レビュー見る
+                    <button class="action-btn primary comment-liver-btn" data-liver-id="${liver.id}">
+                        コメント追加
                     </button>
                 </div>
             </div>
         `;
-    }
-
-    // 星を生成
-    generateStars(rating) {
-        const fullStars = Math.floor(rating);
-        const hasHalfStar = rating % 1 >= 0.5;
-        let stars = '';
-
-        for (let i = 0; i < fullStars; i++) {
-            stars += '★';
-        }
-        if (hasHalfStar) {
-            stars += '☆';
-        }
-        for (let i = fullStars + (hasHalfStar ? 1 : 0); i < 5; i++) {
-            stars += '☆';
-        }
-
-        return stars;
     }
 
     // ライバーアクションのイベントリスナーを設定
     bindLiverActions() {
-        document.querySelectorAll('.review-btn').forEach(btn => {
+        document.querySelectorAll('.view-liver-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
+                e.stopPropagation();
                 const liverId = parseInt(e.currentTarget.dataset.liverId);
-                this.showReviewModal(liverId);
+                this.showDetailModal(liverId);
             });
         });
 
-        document.querySelectorAll('.view-reviews-btn').forEach(btn => {
+        document.querySelectorAll('.comment-liver-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
+                e.stopPropagation();
                 const liverId = parseInt(e.currentTarget.dataset.liverId);
-                this.showLiverReviews(liverId);
+                this.showCommentModal(liverId);
+            });
+        });
+
+        document.querySelectorAll('.liver-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                if (!e.target.closest('button')) {
+                    const liverId = parseInt(card.dataset.id);
+                    this.showDetailModal(liverId);
+                }
             });
         });
     }
 
-    // ライバーのレビューを表示
-    showLiverReviews(liverId) {
-        const liver = this.livers.find(l => l.id === liverId);
-        const liverReviews = this.reviews.filter(r => r.liverId === liverId);
+    // ライバー詳細を表示
+    renderLiverDetail(liver) {
+        const comments = this.comments[liver.id] || [];
         
-        if (liverReviews.length === 0) {
-            alert(`${liver.name}のレビューはまだありません。最初のレビューを投稿してみませんか？`);
-            return;
-        }
-
-        let reviewsHTML = `<h3>${liver.name}のレビュー (${liverReviews.length}件)</h3>\n\n`;
-        liverReviews.forEach(review => {
-            reviewsHTML += `【${review.title}】\n`;
-            reviewsHTML += `評価: ${'★'.repeat(review.rating)}${'☆'.repeat(5-review.rating)}\n`;
-            reviewsHTML += `${review.content}\n`;
-            reviewsHTML += `投稿者: ${review.reviewer} (${this.formatTime(review.timestamp)})\n\n`;
-        });
-
-        alert(reviewsHTML);
-    }
-
-    // 人気ライバーを表示
-    renderPopularLivers() {
-        const container = document.getElementById('popularLivers');
-        const popularLivers = this.livers
-            .sort((a, b) => b.averageRating - a.averageRating)
-            .slice(0, 5);
-
-        container.innerHTML = popularLivers.map(liver => `
-            <div class="liver-card" style="margin-bottom: 1rem; cursor: pointer;" onclick="document.querySelector('[data-liver-id=\\"${liver.id}\\"] .review-btn').click()">
-                <div style="display: flex; align-items: center; gap: 1rem;">
-                    <img src="${liver.avatar}" alt="${liver.name}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
-                    <div>
-                        <h4 style="margin: 0; font-size: 0.9rem;">${this.escapeHtml(liver.name)}</h4>
-                        <div style="color: #ffd700; font-size: 0.8rem;">${this.generateStars(liver.averageRating)} ${liver.averageRating.toFixed(1)}</div>
+        const detailHTML = `
+            <div class="liver-detail-header">
+                <h3 class="liver-detail-name">${this.escapeHtml(liver.name)}</h3>
+                
+                <div class="liver-detail-description">
+                    <h4 style="margin-bottom: 10px; color: #666; font-size: 14px;">最初の投稿</h4>
+                    <p>${this.escapeHtml(liver.description)}</p>
+                    <div style="margin-top: 15px; font-size: 14px; color: #999;">
+                        ${this.formatTime(liver.timestamp)}
                     </div>
                 </div>
             </div>
-        `).join('');
-    }
-
-    // 最新レビューを表示
-    renderRecentReviews() {
-        const container = document.getElementById('recentReviews');
-        const recentReviews = this.reviews
-            .sort((a, b) => b.timestamp - a.timestamp)
-            .slice(0, 5);
-
-        container.innerHTML = recentReviews.map(review => {
-            const liver = this.livers.find(l => l.id === review.liverId);
-            return `
-                <div class="review-item">
-                    <div class="review-header">
-                        <span class="review-liver">${liver ? liver.name : '不明'}</span>
-                        <span class="review-rating">${'★'.repeat(review.rating)}</span>
-                    </div>
-                    <div class="review-text">${this.escapeHtml(review.title)}</div>
+            
+            <div class="comments-section">
+                <div class="comments-header">
+                    <h4>コメント・エピソード (${comments.length}件)</h4>
+                    <button class="action-btn primary" onclick="liverBoard.showCommentModal(${liver.id}); liverBoard.hideDetailModal();">
+                        コメント追加
+                    </button>
                 </div>
-            `;
-        }).join('');
+                
+                ${comments.length === 0 ? 
+                    '<div class="empty-state"><p>まだコメントがありません。<br>最初のコメントを投稿してみませんか？</p></div>' :
+                    comments.map((comment, index) => `
+                        <div class="comment-item">
+                            <div class="comment-header">
+                                <div>
+                                    <span class="comment-number">${index + 1}</span>
+                                    <span class="comment-label">コメント</span>
+                                </div>
+                                <span class="comment-time">${this.formatTime(comment.timestamp)}</span>
+                            </div>
+                            <div class="comment-content">
+                                ${this.escapeHtml(comment.content)}
+                            </div>
+                        </div>
+                    `).join('')
+                }
+            </div>
+        `;
+
+        document.getElementById('liverDetailContent').innerHTML = detailHTML;
     }
 
     // 通知を表示
     showNotification(message) {
+        // 既存の通知を削除
+        const existingNotification = document.querySelector('.notification');
+        if (existingNotification) {
+            existingNotification.remove();
+        }
+
         const notification = document.createElement('div');
         notification.className = 'notification';
         notification.textContent = message;
-        notification.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #4CAF50;
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 5px;
-            z-index: 1001;
-            animation: slideIn 0.3s ease;
-        `;
 
         document.body.appendChild(notification);
 
         setTimeout(() => {
             notification.remove();
         }, 3000);
-    }
-
-    // ナビゲーションのアクティブ状態を設定
-    setActiveNav(activeLink) {
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.classList.remove('active');
-        });
-        activeLink.classList.add('active');
     }
 
     // HTMLエスケープ
@@ -669,7 +468,23 @@ if ('serviceWorker' in navigator) {
     }
 }
 
+// グローバル変数として設定
+let liverBoard;
+
 // アプリケーション初期化
 document.addEventListener('DOMContentLoaded', () => {
-    new LiverReviewBoard();
+    liverBoard = new LiverBoard();
 });
+
+// PWA対応（Service Worker登録）
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+                console.log('SW registered: ', registration);
+            })
+            .catch(registrationError => {
+                console.log('SW registration failed: ', registrationError);
+            });
+    });
+}

@@ -1,22 +1,17 @@
 {
-    "name": "ライバー掲示板 - UTIP Live",
+    "name": "お気に入りのライバーを検索",
     "short_name": "ライバー掲示板",
-    "description": "ライバーと視聴者が交流できる掲示板サイト",
-    "start_url": "/",
+    "description": "ライバーについての感想や評価を共有できる掲示板サイト",
+    "start_url": "./",
     "display": "standalone",
-    "background_color": "#f5f5f5",
-    "theme_color": "#667eea",
+    "background_color": "#f0f0f0",
+    "theme_color": "#e91e63",
     "orientation": "portrait-primary",
     "icons": [
         {
-            "src": "icon-192.png",
+            "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiBmaWxsPSIjZTkxZTYzIi8+Cjx0ZXh0IHg9Ijk2IiB5PSIxMTAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSI4MCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkw8L3RleHQ+Cjwvc3ZnPg==",
             "sizes": "192x192",
-            "type": "image/png"
-        },
-        {
-            "src": "icon-512.png",
-            "sizes": "512x512",
-            "type": "image/png"
+            "type": "image/svg+xml"
         }
     ],
     "categories": ["social", "entertainment"],
