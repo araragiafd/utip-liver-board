@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ライバー掲示板 - UTIP Live</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#667eea">
+    <link rel="icon" type="image/png" href="https://via.placeholder.com/32x32" sizes="32x32">
+    <link rel="apple-touch-icon" href="https://via.placeholder.com/180x180">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">
+                <i class="fas fa-broadcast-tower"></i>
+                ライバー掲示板
+            </h1>
+            <nav class="nav">
+                <a href="#home" class="nav-link active">ホーム</a>
+                <a href="#popular" class="nav-link">人気</a>
+                <a href="#new" class="nav-link">新着</a>
+                <a href="#categories" class="nav-link">カテゴリ</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <section class="hero">
+                <h2>ライバーコミュニティ掲示板</h2>
+                <p>配信者と視聴者が交流できる場所</p>
+            </section>
+
+            <div class="content-wrapper">
+                <aside class="sidebar">
+                    <div class="widget">
+                        <h3>カテゴリ</h3>
+                        <ul class="category-list">
+                            <li><a href="#gaming"><i class="fas fa-gamepad"></i> ゲーム配信</a></li>
+                            <li><a href="#music"><i class="fas fa-music"></i> 音楽配信</a></li>
+                            <li><a href="#chat"><i class="fas fa-comments"></i> 雑談配信</a></li>
+                            <li><a href="#art"><i class="fas fa-palette"></i> お絵描き配信</a></li>
+                            <li><a href="#cooking"><i class="fas fa-utensils"></i> 料理配信</a></li>
+                            <li><a href="#other"><i class="fas fa-ellipsis-h"></i> その他</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="widget">
+                        <h3>人気ライバー</h3>
+                        <div class="popular-livers">
+                            <div class="liver-card">
+                                <img src="https://via.placeholder.com/50x50" alt="ライバー1" class="liver-avatar">
+                                <div class="liver-info">
+                                    <h4>配信者A</h4>
+                                    <span class="status online">配信中</span>
+                                </div>
+                            </div>
+                            <div class="liver-card">
+                                <img src="https://via.placeholder.com/50x50" alt="ライバー2" class="liver-avatar">
+                                <div class="liver-info">
+                                    <h4>配信者B</h4>
+                                    <span class="status offline">オフライン</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+                <section class="board-content">
+                    <div class="board-header">
+                        <h2>掲示板</h2>
+                        <button class="btn-primary" id="newPostBtn">
+                            <i class="fas fa-plus"></i> 新規投稿
+                        </button>
+                    </div>
+
+                    <div class="post-filters">
+                        <button class="filter-btn active" data-filter="all">すべて</button>
+                        <button class="filter-btn" data-filter="gaming">ゲーム</button>
+                        <button class="filter-btn" data-filter="music">音楽</button>
+                        <button class="filter-btn" data-filter="chat">雑談</button>
+                    </div>
+
+                    <div class="posts-container" id="postsContainer">
+                        <!-- 投稿がここに動的に追加される -->
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- 新規投稿モーダル -->
+    <div class="modal" id="newPostModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>新規投稿</h3>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <form class="post-form" id="postForm">
+                <div class="form-group">
+                    <label for="postTitle">タイトル</label>
+                    <input type="text" id="postTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="postCategory">カテゴリ</label>
+                    <select id="postCategory" required>
+                        <option value="">選択してください</option>
+                        <option value="gaming">ゲーム配信</option>
+                        <option value="music">音楽配信</option>
+                        <option value="chat">雑談配信</option>
+                        <option value="art">お絵描き配信</option>
+                        <option value="cooking">料理配信</option>
+                        <option value="other">その他</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="postContent">内容</label>
+                    <textarea id="postContent" rows="5" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="authorName">投稿者名</label>
+                    <input type="text" id="authorName" required>
+                </div>
+                <button type="submit" class="btn-primary">投稿する</button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 UTIP Live. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="https://utip-live.com/">UTIP Live</a>
+                <a href="#privacy">プライバシーポリシー</a>
+                <a href="#terms">利用規約</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
